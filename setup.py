@@ -7,16 +7,16 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-    name='pyxt',
-    version='0.6.24',
-    description='Python3 XT.COM HTTP API Connector',
+    name='azpython',
+    version='0.1.1',
+    description='Python3 AZ.COM HTTP API Connector',
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/kelvinxue/pyxt",
-    download_url='https://github.com/kelvinxue/pyxt/archive/refs/tags/v0.6.24.tar.gz',
+    url="https://github.com/selinayiya/api-python-demo",
+    download_url='https://github.com/selinayiya/api-python-demo/archive/refs/tags/V0.1.1.tar.gz',
     license="MIT License",
-    author="xt",
-    author_email="xt@xt.com",
+    author="az",
+    author_email="az@az.com",
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
@@ -25,8 +25,8 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
     ],
-    keywords="xt api connector",
-    packages=["pyxt", "pyxt.websocket"],
+    keywords="az api connector",
+    packages=["azpython", "azpython.websocket"],
     python_requires=">=3.9",
     install_requires=[
         "requests",

@@ -1,5 +1,5 @@
-from pyxt.perp import Perp
+from azpython.perp import Perp
 
-xt = Perp(host="https://fapi.xt.com", access_key='', secret_key='')
-res = xt.cancel_order(order_id=12345678)
+az = Perp(host="https://fapi.az.com", access_key='', secret_key='')
+res = az.cancel_order(order_id=12345678)
 print(res)

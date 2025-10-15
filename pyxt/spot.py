@@ -7,24 +7,24 @@ import logging
 from copy import deepcopy
 from typing import List, Dict
 
-logger = logging.getLogger('xt4')
+logger = logging.getLogger('az_spot')
 
 """
-curl --location --request POST 'http://sapi.xt-dev.com/spot/v4/order' \
+curl --location --request POST 'http://sapi.az.com/spot/v4/order' \
 --header 'accept: */*' \
 --header 'Content-Type: application/json' \
---header 'xt-validate-appkey: 626fa1c2-94bf-4559-a3f2-c62897bc392e' \
---header 'xt-validate-timestamp: 1641446237201' \
---header 'xt-validate-signature: f24b67d42283feb4b405c59146ecfca4a48f64bccc33c05c33bcc73edad6b4db' \
---header 'xt-validate-recvwindow: 5000' \
---header 'xt-validate-algorithms: HmacSHA256' \
+--header 'validate-appkey: 626fa1c2-94bf-4559-a3f2-c62897bc392e' \
+--header 'validate-timestamp: 1641446237201' \
+--header 'validate-signature: f24b67d42283feb4b405c59146ecfca4a48f64bccc33c05c33bcc73edad6b4db' \
+--header 'validate-recvwindow: 5000' \
+--header 'validate-algorithms: HmacSHA256' \
 --data-raw '{"symbol": "BTC_USDT","clientOrderId": "16559390087220001","side": "BUY","type": "LIMIT","timeInForce": "GTC","bizType": "SPOT","price": 20,"quantity": 0.001}'
 """
 
 
 class Spot:
     """
-        xt api接口
+        az api接口
         异常处理：
             未获得内容，返回None
             获得内容返回状态码非200，
@@ -69,18 +69,18 @@ class Spot:
 
     def gen_auth_header(self, url, method, **kwargs):
         headers = {}
-        headers['xt-validate-timestamp'] = str(int((time.time() - 30) * 1000))
-        headers['xt-validate-appkey'] = self.access_key
-        headers['xt-validate-recvwindow'] = '60000'
-        headers['xt-validate-algorithms'] = 'HmacSHA256'
-        headers['xt-validate-signature'] = self.create_sign(url, method, headers, str(self.secret_key), **kwargs)
+        headers['validate-timestamp'] = str(int((time.time() - 30) * 1000))
+        headers['validate-appkey'] = self.access_key
+        headers['validate-recvwindow'] = '60000'
+        headers['validate-algorithms'] = 'HmacSHA256'
+        headers['validate-signature'] = self.create_sign(url, method, headers, str(self.secret_key), **kwargs)
         headers_ = deepcopy(self.headers)
         headers_.update(headers)
         return headers
 
     def auth_req(self, url, method='GET', **params):  # 登录签名才可请求的接口
         if self.anonymous:
-            raise XtCodeError('未正确提供xt登录账号')
+            raise AzCodeError('未正确提供az登录账号')
         headers = self.gen_auth_header(url, method, **params)
         kwargs = {'headers': headers, 'timeout': self.timeout}
         kwargs.update(params)
@@ -94,16 +94,16 @@ class Spot:
         except Exception as e:
             info = f'url:{url} method:{method} params:{params} exception:{e}'
             logger.error(info, exc_info=True)
-            raise XtHttpError(e, info=info, request={'url': url, 'method': method, 'params': params},
+            raise AzHttpError(e, info=info, request={'url': url, 'method': method, 'params': params},
                               response=resp, res=res)
         if res['rc'] != 0:
             if res['mc'] == 'AUTH_103':  # 签名错误时，在日志中提供出ak，url, headers, 以便校验。
                 info = f'url:{url} method:{method} params:{params} headers:{json.dumps(headers)}'
                 logger.error(info)
-                raise XtBusinessError(res, info)
+                raise AzBusinessError(res, info)
             info = f'url:{url} method:{method} params:{params} res:{res}'
             logger.debug(info)
-            raise XtBusinessError(res, info)
+            raise AzBusinessError(res, info)
         return res
 
     def req(self, url, method, **params):  # 公开接口
@@ -119,7 +119,7 @@ class Spot:
         except Exception as e:
             info = f'url:{url} method:{method} params:{params} exception:{e}'
             logger.error(info, exc_info=True)
-            raise XtHttpError(e, info=info, response=resp, res=res)
+            raise AzHttpError(e, info=info, response=resp, res=res)
         return resp.json()
 
     def req_get(self, url, params=None, auth=None):  # 通过接口名判定是否需登录提供签名
@@ -144,14 +144,14 @@ class Spot:
 
     def get_time(self) -> int:
         """
-            获取服务器时间戳 https://xt-com.github.io/xt4-api/#market_cn1serverInfo
+            获取服务器时间戳 https://az.github.io/az-api/#market_cn1serverInfo
         :return: 1662435658062  # datetime.datetime.fromtimestamp(1662435658062/1000)
         """
         return int(self.req_get("/v4/public/time")['result']['serverTime'])
 
     def get_symbol_config(self, symbol: str = None, symbols: list = None) -> dict:
         """
-            获取交易对信息 https://xt-com.github.io/xt4-api/#market_cn2symbol
+            获取交易对信息 https://az-com.github.io/az-api/#market_cn2symbol
         :param symbol: 市场名 如btc_usdt
         :param symbols: 市场名数组
         :return: {}
@@ -167,7 +167,7 @@ class Spot:
 
     def get_depth(self, symbol: str, limit: int = None) -> dict:
         """
-            获取深度数据 https://xt-com.github.io/xt4-api/#market_cn10depth
+            获取深度数据 https://az-com.github.io/az-api/#market_cn10depth
         :param symbol:
         :param limit: 数量 默认50 1到500
         :return: {
@@ -371,7 +371,7 @@ class Spot:
     def order(self, symbol, side, type, biz_type='SPOT', time_in_force='GTC', client_order_id=None, price=None,
               quantity=None, quote_qty=None):
         """
-            https://xt-com.github.io/xt4-api/#order_cnorderPost
+            https://az-com.github.io/az-api/#order_cnorderPost
             symbol	string	true		交易对
             clientOrderId	string	false		客户端ID(最长32位)
             side	string	true		买卖方向  BUY-买,SELL-卖
@@ -464,7 +464,7 @@ class Spot:
         :return:
         """
         """
-            https://xt-com.github.io/xt4-api/#order_cnbatchOrderPost
+            https://az-com.github.io/az-api/#order_cnbatchOrderPost
             参考order方法，组装data这样的字典数组
             symbol, side, type, biz_type='SPOT', time_in_force='GTC', client_order_id=None, price=None, quantity=None, quote_qty=None
         :param data: {
@@ -637,11 +637,11 @@ import json
 import requests
 
 
-class XtCodeError(Exception):
+class AzCodeError(Exception):
     pass
 
 
-class XtHttpError(Exception):
+class AzHttpError(Exception):
     PARAMS_DIC = {
         'request': '请求',
         'response': '响应',
@@ -676,7 +676,7 @@ class XtHttpError(Exception):
 
     @property
     def desc(self):
-        return f'XT服务异常:str{self.exception}'
+        return f'AZ服务异常:str{self.exception}'
 
     @property
     def err_str(self):
@@ -696,21 +696,21 @@ class XtHttpError(Exception):
         return '\n'.join(res)
 
     def __str__(self):
-        return f'XT接口异常:{self.info}\n详细数据:{self.err_str}\n异常信息:\n{self.desc}'
+        return f'AZ接口异常:{self.info}\n详细数据:{self.err_str}\n异常信息:\n{self.desc}'
 
 
-XT_MES_ERRORS = {
+AZ_MES_ERRORS = {
     '0': '客户端异常',
     'SUCCESS': '成功',
     'FAILURE': '失败',
     'not exist': '目标不存在',
-    'AUTH_001': '缺少请求头 xt-validate-appkey',
-    'AUTH_002': '缺少请求头 xt-validate-timestamp',
-    'AUTH_003': '缺少请求头 xt-validate-recvwindow',
-    'AUTH_004': '错误的请求头 xt-validate-recvwindow',
-    'AUTH_005': '缺少请求头 xt-validate-algorithms',
-    'AUTH_006': '错误的请求头 xt-validate-algorithms',
-    'AUTH_007': '缺少请求头 xt-validate-signature',
+    'AUTH_001': '缺少请求头 validate-appkey',
+    'AUTH_002': '缺少请求头 validate-timestamp',
+    'AUTH_003': '缺少请求头 validate-recvwindow',
+    'AUTH_004': '错误的请求头 validate-recvwindow',
+    'AUTH_005': '缺少请求头 validate-algorithms',
+    'AUTH_006': '错误的请求头 validate-algorithms',
+    'AUTH_007': '缺少请求头 validate-signature',
     'AUTH_101': 'ApiKey不存在',
     'AUTH_102': 'ApiKey未激活',
     'AUTH_103': '签名错误',
@@ -737,7 +737,7 @@ XT_MES_ERRORS = {
 }
 
 
-class XtBusinessError(Exception):
+class AzBusinessError(Exception):
     def __init__(self, data, info: str = None):
         self.return_code = data.get('rc', '0')
         self.message_code = data.get('mc', '0')
@@ -746,7 +746,7 @@ class XtBusinessError(Exception):
 
     @property
     def desc(self):
-        return XT_MES_ERRORS.get(self.message_code, f'未知异常码:{self.message_code}')
+        return AZ_MES_ERRORS.get(self.message_code, f'未知异常码:{self.message_code}')
 
     def __str__(self):
-        return f"XT ERROR. RC:{self.return_code} MC: {self.message_code} DESC:{self.desc} INFO: {self.info} SOURCE:{json.dumps(self.source)}"
+        return f"AZ ERROR. RC:{self.return_code} MC: {self.message_code} DESC:{self.desc} INFO: {self.info} SOURCE:{json.dumps(self.source)}"

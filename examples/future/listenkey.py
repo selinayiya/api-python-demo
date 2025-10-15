@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from pyxt.perp import Perp
+from azpython.perp import Perp
 
-xt = Perp(host="https://fapi.xt.com", access_key='', secret_key='')
-print(xt.listen_key())
+az = Perp(host="https://fapi.az.com", access_key='', secret_key='')
+print(az.listen_key())

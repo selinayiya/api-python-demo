@@ -1,12 +1,12 @@
 # -*- coding:utf-8 -*-
 from typing import Optional
-from pyxt.websocket.xt_websocket import XTWebsocketClient
+from azpython.websocket.xt_websocket import XTWebsocketClient
 
 
 class PerpWebsocketStreamClient(XTWebsocketClient):
     def __init__(
             self,
-            stream_url="wss://fstream.xt.com",
+            stream_url="wss://fstream.az.com",
             on_message=None,
             on_open=None,
             on_close=None,

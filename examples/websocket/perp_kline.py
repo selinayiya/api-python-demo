@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import time
 import threading
-from pyxt.websocket.perp import PerpWebsocketStreamClient
+from azpython.websocket.perp import PerpWebsocketStreamClient
 
 
 if __name__ == '__main__':

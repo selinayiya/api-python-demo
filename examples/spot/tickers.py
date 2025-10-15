@@ -1,5 +1,5 @@
-from pyxt.spot import Spot
+from azpython.spot import Spot
 
-xt = Spot(host="https://sapi.xt.com", access_key='', secret_key='')
-print(xt.get_tickers(symbol='btc_usdt'))
-print(xt.get_tickers(symbols=['btc_usdt', 'xt_usdt']))
+az = Spot(host="https://sapi.az.com", access_key='', secret_key='')
+print(az.get_tickers(symbol='btc_usdt'))
+print(az.get_tickers(symbols=['btc_usdt', 'eth_usdt']))

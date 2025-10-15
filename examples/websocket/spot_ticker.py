@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import time
 import threading
-from pyxt.websocket.spot import SpotWebsocketStreamClient
+from azpython.websocket.spot import SpotWebsocketStreamClient
 
 
 if __name__ == '__main__':

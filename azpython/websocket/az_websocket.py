@@ -38,7 +38,7 @@ def parse_proxies(proxies: dict):
     }
 
 
-class XTSocketManager(threading.Thread):
+class AZSocketManager(threading.Thread):
     def __init__(
             self,
             stream_url,
@@ -82,7 +82,7 @@ class XTSocketManager(threading.Thread):
         self.read_data()
 
     def send_message(self, message):
-        logger.debug(f"Sending message to XT WebSocket Server: {message}")
+        logger.debug(f"Sending message to AZ WebSocket Server: {message}")
         self.ws.send(message)
 
     def ping(self):
@@ -146,7 +146,7 @@ class XTSocketManager(threading.Thread):
                     self.on_error(self, e)
 
 
-class XTWebsocketClient:
+class AZWebsocketClient:
     ACTION_SUBSCRIBE = "subscribe"
     ACTION_UNSUBSCRIBE = "unsubscribe"
 
@@ -176,7 +176,7 @@ class XTWebsocketClient:
 
         # start the thread
         self.socket_manager.start()
-        logger.debug("XT WebSocket Client started.")
+        logger.debug("AZ WebSocket Client started.")
 
     def _initialize_socket(
             self,
@@ -190,7 +190,7 @@ class XTWebsocketClient:
             timeout,
             proxies,
     ):
-        return XTSocketManager(
+        return AZSocketManager(
             stream_url,
             on_message=on_message,
             on_open=on_open,
@@ -253,7 +253,7 @@ class XTWebsocketClient:
         self.socket_manager.send_message(json_msg)
 
     def ping(self):
-        logger.debug("Sending ping to XT WebSocket Server")
+        logger.debug("Sending ping to AZ WebSocket Server")
         self.socket_manager.send_message(message="ping")
 
     def heartbeat(self):

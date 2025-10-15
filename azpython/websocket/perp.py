@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 from typing import Optional
-from azpython.websocket.xt_websocket import XTWebsocketClient
+from azpython.websocket.az_websocket import AZWebsocketClient
 
 
-class PerpWebsocketStreamClient(XTWebsocketClient):
+class PerpWebsocketStreamClient(AZWebsocketClient):
     def __init__(
             self,
             stream_url="wss://fstream.az.com",

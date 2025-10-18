@@ -113,7 +113,7 @@ class Perp:
         @return: market config info
         """
         params = {"symbol": symbol}
-        url = self.host + "/future/market" + '/v1/public/symbol/detail'
+        url = self.host + "/az/future/market" + '/v1/public/symbol/detail'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -122,7 +122,7 @@ class Perp:
         :return: all pairs info
         """
         params = {}
-        url = self.host + "/future/market" + '/v1/public/symbol/coins'
+        url = self.host + "/az/future/market" + '/v1/public/symbol/coins'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -131,7 +131,7 @@ class Perp:
         :return:funding rate
         """
         params = {"symbol": symbol}
-        url = self.host + "/future/market" + '/v1/public/q/funding-rate'
+        url = self.host + "/az/future/market" + '/v1/public/q/funding-rate'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -140,7 +140,7 @@ class Perp:
         :return:agg ticker
         """
         params = {"symbol": symbol}
-        url = self.host + "/future/market" + '/v1/public/q/agg-ticker'
+        url = self.host + "/az/future/market" + '/v1/public/q/agg-ticker'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -149,7 +149,7 @@ class Perp:
         :return:book ticker
         """
         params = {"symbol": symbol}
-        url = self.host + "/future/market" + '/v1/public/q/ticker/book'
+        url = self.host + "/az/future/market" + '/v1/public/q/ticker/book'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -158,7 +158,7 @@ class Perp:
         :return: last trade record
         """
         params = {"symbol": symbol, "num": length}
-        url = self.host + "/future/market" + '/v1/public/q/deal'
+        url = self.host + "/az/future/market" + '/v1/public/q/deal'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -167,7 +167,7 @@ class Perp:
         :return:market depth
         """
         params = {"symbol": symbol, "level": depth}
-        url = self.host + "/future/market" + '/v1/public/q/depth'
+        url = self.host + "/az/future/market" + '/v1/public/q/depth'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -176,7 +176,7 @@ class Perp:
         :return:mark price
         """
         params = {"symbol": symbol}
-        url = self.host + "/future/market" + '/v1/public/q/symbol-mark-price'
+        url = self.host + "/az/future/market" + '/v1/public/q/symbol-mark-price'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -200,7 +200,7 @@ class Perp:
         if limit:
             params.update({"limit": limit})
 
-        url = self.host + "/future/market" + '/v1/public/q/kline'
+        url = self.host + "/az/future/market" + '/v1/public/q/kline'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -209,7 +209,7 @@ class Perp:
         :return: symbol list
         """
         params = {}
-        url = self.host + "/future/market" + '/v3/public/symbol/list'
+        url = self.host + "/az/future/market" + '/v3/public/symbol/list'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -228,7 +228,7 @@ class Perp:
             "id": id,
             "limit": limit
         }
-        url = self.host + "/future/market" + '/v1/public/q/funding-rate-record'
+        url = self.host + "/az/future/market" + '/v1/public/q/funding-rate-record'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -237,7 +237,7 @@ class Perp:
         :return: list of leverage brackets
         """
         params = {}
-        url = self.host + "/future/market" + '/v1/public/leverage/bracket/list'
+        url = self.host + "/az/future/market" + '/v1/public/leverage/bracket/list'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -249,7 +249,7 @@ class Perp:
         params = {
             "symbol": symbol
         }
-        url = self.host + "/future/market" + '/v1/public/leverage/bracket/detail'
+        url = self.host + "/az/future/market" + '/v1/public/leverage/bracket/detail'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -259,7 +259,7 @@ class Perp:
         :return: code, success, error
         """
         params = {}
-        url = self.host + "/future/market" + '/v1/public/q/tickers'
+        url = self.host + "/az/future/market" + '/v1/public/q/tickers'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -269,7 +269,7 @@ class Perp:
         :return: code, success, error
         """
         params = {'symbol': symbol}
-        url = self.host + "/future/market" + '/v1/public/q/ticker'
+        url = self.host + "/az/future/market" + '/v1/public/q/ticker'
         code, success, error = self._fetch(method="GET", url=url, params=params, timeout=self.timeout)
         return code, success, error
 
@@ -278,7 +278,7 @@ class Perp:
         :return: account capital
         """
         bodymod = "application/json"
-        path = "/future/user" + '/v1/balance/list'
+        path = "/az/future/user" + '/v1/balance/list'
         url = self.host + path
         params = {}
         header = self._create_sign(self.__access_key, self.__secret_key, path=path, bodymod=bodymod,
@@ -291,7 +291,7 @@ class Perp:
         :return: listen_key
         """
         bodymod = "application/json"
-        path = "/future/user" + '/v1/user/listen-key'
+        path = "/az/future/user" + '/v1/user/listen-key'
         url = self.host + path
         params = {}
         header = self._create_sign(self.__access_key, self.__secret_key, path=path, bodymod=bodymod,
@@ -324,7 +324,7 @@ class Perp:
             params["triggerStopPrice"] = trigger_stop_price
 
         bodymod = "application/json"
-        path = "/future/trade" + '/v1/order/create'
+        path = "/az/future/trade" + '/v1/order/create'
         url = self.host + path
         # params = dict(sorted(params.items(), key=lambda e: e[0]))
         header = self._create_sign(self.__access_key, self.__secret_key, path=path, bodymod=bodymod,
@@ -339,7 +339,7 @@ class Perp:
         params = order_list
 
         bodymod = "application/json"
-        path = "/future/trade" + "/v2/order/create-batch"
+        path = "/az/future/trade" + "/v2/order/create-batch"
         url = self.host + path
         header = self._create_sign(self.__access_key, self.__secret_key, path=path, bodymod=bodymod,
                                    params=params)
@@ -353,7 +353,7 @@ class Perp:
         Error
         """
         bodymod = "application/x-www-form-urlencoded"
-        path = "/future/trade" + '/v1/order/list-history'
+        path = "/az/future/trade" + '/v1/order/list-history'
         url = self.host + path
         params = {}
         if symbol:
@@ -380,7 +380,7 @@ class Perp:
         :return:
         """
         bodymod = "application/x-www-form-urlencoded"
-        path = "/future/user" + '/v1/position/list'
+        path = "/az/future/user" + '/v1/position/list'
         url = self.host + path
         params = {
             "symbol": symbol,
@@ -397,7 +397,7 @@ class Perp:
         :return:
         """
         bodymod = "application/json"
-        path = "/future/trade" + '/v1/order/cancel'
+        path = "/az/future/trade" + '/v1/order/cancel'
         url = self.host + path
         params = {
             "orderId": order_id
@@ -414,7 +414,7 @@ class Perp:
         {'returnCode': 0, 'msgInfo': 'success', 'error': None, 'result': True}
         """
         bodymod = "application/json"
-        path = "/future/trade" + '/v1/order/cancel-batch'
+        path = "/az/future/trade" + '/v1/order/cancel-batch'
         url = self.host + path
         params = {
             "orderIds": str(order_id_list)
@@ -429,7 +429,7 @@ class Perp:
         :return: cancel_all_order
         """
         bodymod = "application/json"
-        path = "/future/trade" + '/v1/order/cancel-all'
+        path = "/az/future/trade" + '/v1/order/cancel-all'
         url = self.host + path
         params = {
             "symbol": symbol
@@ -445,7 +445,7 @@ class Perp:
         {'returnCode': 0, 'msgInfo': 'success', 'error': None, 'result': {'orderId': '137699581654889152', 'clientOrderId': None, 'symbol': 'btc_usdt', 'orderType': 'LIMIT', 'orderSide': 'BUY', 'positionSide': 'LONG', 'timeInForce': 'GTC', 'closePosition': False, 'price': '18500', 'origQty': '10', 'avgPrice': '0', 'executedQty': '0', 'marginFrozen': '18.5', 'triggerProfitPrice': None, 'triggerStopPrice': None, 'sourceId': None, 'forceClose': False, 'closeProfit': None, 'state': 'CANCELED', 'createdTime': 1662532138730}}
         """
         bodymod = "application/x-www-form-urlencoded"
-        path = "/future/trade" + '/v1/order/detail'
+        path = "/az/future/trade" + '/v1/order/detail'
         url = self.host + path
         params = {
             "orderId": order_id
@@ -460,7 +460,7 @@ class Perp:
         :return: set_account_leverage
         """
         bodymod = "application/json"
-        path = "/future/user" + '/v1/position/adjust-leverage'
+        path = "/az/future/user" + '/v1/position/adjust-leverage'
         url = self.host + path
         params = {
             "leverage": leverage,
@@ -478,7 +478,7 @@ class Perp:
         :return: get_account_order
         """
         bodymod = "application/x-www-form-urlencoded"
-        path = "/future/trade" + '/v1/order/list'
+        path = "/az/future/trade" + '/v1/order/list'
         url = self.host + path
         params = {
             "state": state,
@@ -523,7 +523,7 @@ class Perp:
             params["stopPrice"] = stop_price
 
         bodymod = "application/json"
-        path = "/future/trade" + '/v1/entrust/create-plan'
+        path = "/az/future/trade" + '/v1/entrust/create-plan'
         url = self.host + path
         header = self._create_sign(self.__access_key, self.__secret_key, path=path, bodymod=bodymod,
                                    params=params)
@@ -539,7 +539,7 @@ class Perp:
             "entrustId": entrust_id,
         }
         bodymod = "application/json"
-        path = "/future/trade" + '/v1/entrust/cancel-plan'
+        path = "/az/future/trade" + '/v1/entrust/cancel-plan'
         url = self.host + path
         header = self._create_sign(self.__access_key, self.__secret_key, path=path, bodymod=bodymod,
                                    params=params)
@@ -555,7 +555,7 @@ class Perp:
             "symbol": symbol,
         }
         bodymod = "application/json"
-        path = "/future/trade" + '/v1/entrust/cancel-all-plan'
+        path = "/az/future/trade" + '/v1/entrust/cancel-all-plan'
         url = self.host + path
         header = self._create_sign(self.__access_key, self.__secret_key, path=path, bodymod=bodymod,
                                    params=params)
@@ -573,7 +573,7 @@ class Perp:
         @return:
         """
         bodymod = "application/x-www-form-urlencoded"
-        path = "/future/user" + '/v1/entrust/plan-list'
+        path = "/az/future/user" + '/v1/entrust/plan-list'
         url = self.host + path
         params = {
             "symbol": symbol,
@@ -600,7 +600,7 @@ class Perp:
         @return:
         """
         bodymod = "application/x-www-form-urlencoded"
-        path = "/future/user" + '/v1/entrust/plan-detail'
+        path = "/az/future/user" + '/v1/entrust/plan-detail'
         url = self.host + path
         params = {
             "entrustId": entrust_id,
@@ -617,7 +617,7 @@ class Perp:
         @return:
         """
         bodymod = "application/x-www-form-urlencoded"
-        path = "/future/user" + '/v1/entrust/plan-list-history'
+        path = "/az/future/user" + '/v1/entrust/plan-list-history'
         url = self.host + path
         params = {
             "symbol": symbol
@@ -658,7 +658,7 @@ class Perp:
             "positionSide": position_side,
         }
         bodymod = "application/json"
-        path = "/future/trade" + '/v1/entrust/create-profit'
+        path = "/az/future/trade" + '/v1/entrust/create-profit'
         url = self.host + path
         header = self._create_sign(self.__access_key, self.__secret_key, path=path, bodymod=bodymod,
                                    params=params)
@@ -674,7 +674,7 @@ class Perp:
             "profitId": profit_id
         }
         bodymod = "application/json"
-        path = "/future/trade" + '/v1/entrust/cancel-profit-stop'
+        path = "/az/future/trade" + '/v1/entrust/cancel-profit-stop'
         url = self.host + path
         header = self._create_sign(self.__access_key, self.__secret_key, path=path, bodymod=bodymod,
                                    params=params)
@@ -690,7 +690,7 @@ class Perp:
             "symbol": symbol
         }
         bodymod = "application/json"
-        path = "/future/trade" + '/v1/entrust/cancel-all-profit-stop'
+        path = "/az/future/trade" + '/v1/entrust/cancel-all-profit-stop'
         url = self.host + path
         header = self._create_sign(self.__access_key, self.__secret_key, path=path, bodymod=bodymod,
                                    params=params)
@@ -708,7 +708,7 @@ class Perp:
         @return:
         """
         bodymod = "application/x-www-form-urlencoded"
-        path = "/future/user" + '/v1/entrust/profit-list'
+        path = "/az/future/user" + '/v1/entrust/profit-list'
         url = self.host + path
         params = {
             "symbol": symbol,
@@ -735,7 +735,7 @@ class Perp:
         @return:
         """
         bodymod = "application/x-www-form-urlencoded"
-        path = "/future/user" + '/v1/entrust/profit-detail'
+        path = "/az/future/user" + '/v1/entrust/profit-detail'
         url = self.host + path
         params = {
             "profitId": profit_id,
@@ -761,7 +761,7 @@ class Perp:
         if trigger_stop_price:
             params["triggerStopPrice"] = trigger_stop_price
         bodymod = "application/json"
-        path = "/future/trade" + '/v1/entrust/update-profit-stop'
+        path = "/az/future/trade" + '/v1/entrust/update-profit-stop'
         url = self.host + path
         header = self._create_sign(self.__access_key, self.__secret_key, path=path, bodymod=bodymod,
                                    params=params)

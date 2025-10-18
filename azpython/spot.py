@@ -10,7 +10,7 @@ from typing import List, Dict
 logger = logging.getLogger('az_spot')
 
 """
-curl --location --request POST 'http://s-api.myaztests.com/spot/v4/order' \
+curl --location --request POST 'http://s-api.myaztests.com/spot/az/spot/order' \
 --header 'accept: */*' \
 --header 'Content-Type: application/json' \
 --header 'validate-appkey: 626fa1c2-94bf-4559-a3f2-c62897bc392e' \
@@ -123,19 +123,19 @@ class Spot:
         return resp.json()
 
     def req_get(self, url, params=None, auth=None):  # 通过接口名判定是否需登录提供签名
-        auth = auth if auth is not None else '/v4/public' not in url
+        auth = auth if auth is not None else '/az/spot/public' not in url
         if auth:
             return self.auth_req(url, "GET", params=params)
         return self.req(url, "GET", params=params)
 
     def req_post(self, url, params=None, auth=None):  # post请求 只支持json数据
-        auth = auth if auth is not None else '/v4/public' not in url
+        auth = auth if auth is not None else '/az/spot/public' not in url
         if auth:
             return self.auth_req(url=url, method="POST", json=params)
         return self.req(url=url, method="POST", json=params)
 
     def req_delete(self, url, params=None, json=None, auth=None):  # delete 请求 只支持json数据
-        auth = auth if auth is not None else '/v4/public' not in url
+        auth = auth if auth is not None else '/az/spot/public' not in url
         if auth:
             return self.auth_req(url, "DELETE", params=params, json=json)
         return self.req(url, "DELETE", params=params, json=json)
@@ -147,7 +147,7 @@ class Spot:
             获取服务器时间戳 https://az.github.io/az-api/#market_cn1serverInfo
         :return: 1662435658062  # datetime.datetime.fromtimestamp(1662435658062/1000)
         """
-        return int(self.req_get("/v4/public/time")['result']['serverTime'])
+        return int(self.req_get("/az/spot/public/time")['result']['serverTime'])
 
     def get_symbol_config(self, symbol: str = None, symbols: list = None) -> dict:
         """
@@ -161,7 +161,7 @@ class Spot:
             params['symbol'] = symbol
         elif symbols:
             params['symbols'] = symbols
-        res = self.req_get("/v4/public/symbol", params=params)
+        res = self.req_get("/az/spot/public/symbol", params=params)
         return res['result']['symbols']
         # return {s['symbol']: s for s in res['result']['symbols']}
 
@@ -193,7 +193,7 @@ class Spot:
         params = {'symbol': symbol}
         if limit:
             params['limit'] = limit
-        res = self.req_get('/v4/public/depth', params)
+        res = self.req_get('/az/spot/public/depth', params)
         return res['result']
 
     def get_kline(self, symbol: str, interval: str, start_time: int = None, end_time: int = None, limit: int = 100):
@@ -223,7 +223,7 @@ class Spot:
             params['end_time'] = end_time
         if limit:
             params['limit'] = limit
-        res = self.req_get('/v4/public/kline', params)
+        res = self.req_get('/az/spot/public/kline', params)
         return res['result']
 
     def get_trade_recent(self, symbol, limit: int = None):
@@ -245,7 +245,7 @@ class Spot:
         params = {'symbol': symbol}
         if limit:
             params['limit'] = limit
-        res = self.req_get('/v4/public/trade/recent', params)
+        res = self.req_get('/az/spot/public/trade/recent', params)
         return res['result']
 
     def get_trade_history(self, symbol, direction, limit: int = None, from_id: int = None):
@@ -274,7 +274,7 @@ class Spot:
             params['limit'] = limit
         if from_id:
             params['fromId'] = from_id
-        res = self.req_get('/v4/public/trade/history', params)
+        res = self.req_get('/az/spot/public/trade/history', params)
         return res['result']
 
     def get_tickers(self, symbol: str = None, symbols: list = None) -> dict:
@@ -298,7 +298,7 @@ class Spot:
             params['symbol'] = symbol
         elif symbols:
             params['symbols'] = symbols
-        res = self.req_get('/v4/public/ticker/price', params)
+        res = self.req_get('/az/spot/public/ticker/price', params)
         return res['result']
 
     def get_tickers_book(self, symbol: str = None, symbols: list = None):
@@ -321,7 +321,7 @@ class Spot:
             params['symbol'] = symbol
         elif symbols:
             params['symbols'] = symbols
-        res = self.req_get('/v4/public/ticker/book', params)
+        res = self.req_get('/az/spot/public/ticker/book', params)
         return res['result']
 
     def get_tickers_24h(self, symbol: str = None, symbols: list = None):
@@ -348,7 +348,7 @@ class Spot:
             params['symbol'] = symbol
         elif symbols:
             params['symbols'] = symbols
-        res = self.req_get('/v4/public/ticker/24h', params)
+        res = self.req_get('/az/spot/public/ticker/24h', params)
         return res['result']
 
     # -----------------------------------订单-----------------------------------
@@ -365,7 +365,7 @@ class Spot:
             params['orderId'] = order_id
         elif client_order_id:
             params['clientOrderId'] = client_order_id
-        res = self.req_get('/v4/order', params)
+        res = self.req_get('/az/spot/order', params)
         return res['result']
 
     def order(self, symbol, side, type, biz_type='SPOT', time_in_force='GTC', client_order_id=None, price=None,
@@ -396,7 +396,7 @@ class Spot:
                 params['quoteQty'] = quantity * price
             else:
                 params['quantity'] = quantity
-        res = self.req_post("/v4/order", params)
+        res = self.req_post("/az/spot/order", params)
         return res['result']
 
     def batch_order(self):
@@ -408,7 +408,7 @@ class Spot:
         :param order_id:
         :return:
         """
-        res = self.req_delete(f'/v4/order/{order_id}')
+        res = self.req_delete(f'/az/spot/order/{order_id}')
         return res['result']
 
     def get_open_orders(self, symbol=None, biz_type=None, side=None) -> list:
@@ -427,7 +427,7 @@ class Spot:
         if side:
             params["side"] = side
 
-        res = self.req_get("/v4/open-order", params)
+        res = self.req_get("/az/spot/open-order", params)
         return res['result']
 
     def cancel_open_orders(self, symbol=None, biz_type='SPOT', side=None):
@@ -443,7 +443,7 @@ class Spot:
             params['symbol'] = symbol
         if side:
             params['side'] = side
-        res = self.req_delete('/v4/open-order', json=params)
+        res = self.req_delete('/az/spot/open-order', json=params)
         return res['result']
 
     def cancel_orders(self, order_ids: list) -> None:
@@ -453,7 +453,7 @@ class Spot:
         :return:
         """
         params = {'orderIds': order_ids}
-        res = self.req_delete("/v4/batch-order", json=params)
+        res = self.req_delete("/az/spot/batch-order", json=params)
         return res['result']
 
     def batch_order(self, data, batch_id=None) -> List[Dict]:
@@ -490,7 +490,7 @@ class Spot:
             # item_ = {transfer_hump(k): v for k, v in item.items()}
             items.append(item)
         params = {"clientBatchId": batch_id, "items": items}
-        res = self.req_post("/v4/batch-order", params)
+        res = self.req_post("/az/spot/batch-order", params)
         return res['result']
 
     def get_batch_orders(self, order_ids: list) -> list:
@@ -501,7 +501,7 @@ class Spot:
         """
         # if
         params = {'orderIds': ','.join(order_ids)}
-        res = self.req_get("/v4/batch-order", params)
+        res = self.req_get("/az/spot/batch-order", params)
         return res['result']
 
     def get_all_orders(self, market: str):
@@ -538,7 +538,7 @@ class Spot:
         vars = locals()
         params = {self.underscore_to_camelcase(k): v for k, v in vars.items() if k != 'self' and v is not None}
 
-        res = self.req_get('/v4/history-order', params)
+        res = self.req_get('/az/spot/history-order', params)
         return res['result']
 
     def get_trade(self, symbol=None, biz_type=None, side=None, type=None, order_id=None, from_id=None, direction=None,
@@ -565,7 +565,7 @@ class Spot:
         """
         vars = locals()
         params = {self.underscore_to_camelcase(k): v for k, v in vars.items() if k != 'self' and v is not None}
-        res = self.req_get('/v4/trade', params)
+        res = self.req_get('/az/spot/trade', params)
         return res['result']
 
     # -----------------------------------资产-----------------------------------
@@ -574,7 +574,7 @@ class Spot:
             获取币种信息
         :return:
         """
-        res = self.req_get("/v4/public/currencies")
+        res = self.req_get("/az/spot/public/currencies")
         return res['result']['currencies']
 
     def balance(self, currency):
@@ -584,7 +584,7 @@ class Spot:
         :return:
         """
         params = {'currency': currency}
-        res = self.req_get('/v4/balance', params)
+        res = self.req_get('/az/spot/balance', params)
         return res['result']
 
     def balances(self, currencies=None):
@@ -594,14 +594,14 @@ class Spot:
         :return:
         """
         params = {'currencies': ','.join(currencies)} if currencies else None
-        res = self.req_get('/v4/balances', params)
+        res = self.req_get('/az/spot/balances', params)
         return res['result']
 
     def listen_key(self):
         """
         @return:
         """
-        res = self.req_post('/v4/ws-token', auth=True)
+        res = self.req_post('/az/spot/ws-token', auth=True)
         return res['result']
 
     def transfer(self, from_account, to_account, currency, amount):
@@ -629,7 +629,7 @@ class Spot:
             "amount": amount
         }
 
-        res = self.req_post("/v4/balance/transfer", params, auth=True)
+        res = self.req_post("/az/spot/balance/transfer", params, auth=True)
         return res['result']
 
 

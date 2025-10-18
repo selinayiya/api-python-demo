@@ -23,15 +23,15 @@ class Perp:
             if params:
                 params = dict(sorted(params.items(), key=lambda e: e[0]))
                 message = "&".join([f"{arg}={params[arg]}" for arg in params])
-                signkey = f"xt-validate-appkey={apikey}&xt-validate-timestamp={timestamp}#{path}#{message}"
+                signkey = f"validate-appkey={apikey}&validate-timestamp={timestamp}#{path}#{message}"
             else:
-                signkey = f"xt-validate-appkey={apikey}&xt-validate-timestamp={timestamp}#{path}"
+                signkey = f"validate-appkey={apikey}&validate-timestamp={timestamp}#{path}"
         elif bodymod == 'application/json':
             if params:
                 message = json.dumps(params)
-                signkey = f"xt-validate-appkey={apikey}&xt-validate-timestamp={timestamp}#{path}#{message}"
+                signkey = f"validate-appkey={apikey}&validate-timestamp={timestamp}#{path}#{message}"
             else:
-                signkey = f"xt-validate-appkey={apikey}&xt-validate-timestamp={timestamp}#{path}"
+                signkey = f"validate-appkey={apikey}&validate-timestamp={timestamp}#{path}"
         else:
             assert False, f"not support this bodymod:{bodymod}"
 
@@ -39,10 +39,10 @@ class Perp:
         sign = hmac.new(secret.encode("utf-8"), signkey.encode("utf-8"), digestmod=digestmodule).hexdigest()
         header.update({
             'validate-signversion': "2",
-            'xt-validate-appkey': apikey,
-            'xt-validate-timestamp': timestamp,
-            'xt-validate-signature': sign,
-            'xt-validate-algorithms': "HmacSHA256"
+            'validate-appkey': apikey,
+            'validate-timestamp': timestamp,
+            'validate-signature': sign,
+            'validate-algorithms': "HmacSHA256"
         })
         return header
 

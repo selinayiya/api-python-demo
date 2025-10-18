@@ -30,7 +30,7 @@ from azpython.spot import Spot
 
 Create an HTTP session and connect via WebSocket for Inverse on mainnet:
 ```python
-az = Spot(host="https://sapi.az.com", access_key='', secret_key='')
+az = Spot(host="https://s-api.myaztests.com", access_key='', secret_key='')
 ```
 
 Information can be sent to, or retrieved from, the AZ.COM APIs:
@@ -45,7 +45,7 @@ from azpython.perp import Perp
 
 Create an HTTP session and connect via WebSocket for Inverse on mainnet:
 ```python
-az = Perp(host="https://fapi.az.com", access_key='', secret_key='')
+az = Perp(host="https://f-api.myaztests.com", access_key='', secret_key='')
 ```
 
 Information can be sent to, or retrieved from, the AZ.COM APIs:

@@ -6,7 +6,7 @@ from azpython.websocket.az_websocket import AZWebsocketClient
 class PerpWebsocketStreamClient(AZWebsocketClient):
     def __init__(
             self,
-            stream_url="wss://fstream.az.com",
+            stream_url="wss://f-ws.myaztests.com",
             on_message=None,
             on_open=None,
             on_close=None,
